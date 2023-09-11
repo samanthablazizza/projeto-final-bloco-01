@@ -1,4 +1,5 @@
-﻿using projeto_final_bloco_01.Model;
+﻿using projeto_final_bloco_01.Controller;
+using projeto_final_bloco_01.Model;
 using System;
 
 namespace projeto_final_bloco_01
@@ -9,9 +10,10 @@ namespace projeto_final_bloco_01
         static void Main(string[] args)
         {
             int id, tipo, opcao = 0;
-            string? nome, cor, categoria;
+            string? nome, marca, cor, categoria;
             decimal preco;
 
+            ProdutoController produto = new();
 
             while (true)
             {
@@ -49,6 +51,7 @@ namespace projeto_final_bloco_01
                 }
                 if (opcao == 5)
                 {
+                    Sobre();
                     System.Environment.Exit(0);
                 }
                 switch (opcao)
@@ -64,6 +67,10 @@ namespace projeto_final_bloco_01
                         }
                         while (tipo != 1 && tipo != 2);
 
+                        Console.Write("Digite a Marca do Produto: ");
+                        marca = Console.ReadLine();
+                        marca ??= string.Empty;
+
                         Console.Write("Digite o Nome do Produto: ");
                         nome = Console.ReadLine();
                         nome ??= string.Empty;
@@ -77,12 +84,17 @@ namespace projeto_final_bloco_01
                                 Console.Write("Digite a cor do produto: ");
                                 cor = Console.ReadLine();
                                 cor ??= string.Empty;
+
+                                produto.CriarProduto(new Celular(produto.GerarId(), tipo, nome, preco, marca, cor));
+                                
                                 break;
 
                             case 2:
-                                Console.Write("Digite a Fragrância do Produto: ");
+                                Console.Write("Digite a Categoria do Produto: ");
                                 categoria = Console.ReadLine();
                                 categoria ??= string.Empty;
+
+                                produto.CriarProduto(new Acessorio(produto.GerarId(), tipo, nome, marca, preco, categoria));
 
                                 break;
                         }
@@ -91,7 +103,7 @@ namespace projeto_final_bloco_01
 
                     case 2:
                         Console.WriteLine("Listar todos os Produtos\n");
-
+                        produto.ListarProdutos();
 
                         KeyPress();
                         break;
@@ -103,24 +115,76 @@ namespace projeto_final_bloco_01
                         Console.Write("Digite o número de identificação do produto: ");
                         id = Convert.ToInt32(Console.ReadLine());
 
+                        var produtos = produto.BuscarNaCollection(id);
+
+                        if (produtos != null)
+                        {
+                            Console.Write("Digite a Marca do Produto: ");
+                            marca = Console.ReadLine();
+                            marca ??= string.Empty;
+
+                            Console.Write("Digite o Nome do Produto: ");
+                            nome = Console.ReadLine();
+                            nome ??= string.Empty;
+
+                            Console.Write("Digite o Preço do Produto: ");
+                            preco = Convert.ToDecimal(Console.ReadLine());
+
+                            tipo = produtos.GetTipo();
+                            
+                            switch (tipo)
+                            {
+                                case 1:
+                                    Console.Write("Digite a cor do produto: ");
+                                    cor = Console.ReadLine();
+                                    cor ??= string.Empty;
+
+                                    produto.Atualizar(new Celular(id, tipo, nome, preco, marca, cor));
+
+                                    break;
+
+                                case 2:
+                                    Console.Write("Digite a Categoria do Produto: ");
+                                    categoria = Console.ReadLine();
+                                    categoria ??= string.Empty;
+
+                                    produto.Atualizar(new Acessorio(id, tipo, nome, marca, preco, categoria));
+
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"O Produto {id} não foi encontrado!");
+                            Console.ResetColor();
+                        }
                         KeyPress();
                         break;
-
 
                     case 4:
                         Console.WriteLine("Deletar Produto\n");
 
-                        Console.Write("Digite a Id do Produto:");
+                        Console.Write("Digite a Id do Produto: ");
                         id = Convert.ToInt32(Console.ReadLine());
 
-
+                        produto.Deletar(id);
 
                         KeyPress();
                         break;
                 }
             }
         }
-
+        static void Sobre()
+        {
+            Console.WriteLine("*********************************************************");
+            Console.WriteLine("                                                         ");
+            Console.WriteLine("       Projeto Desenvolvido por: Samantha Blazizza       ");
+            Console.WriteLine("           E-mail: samantha.blazizza@gmail.com           ");
+            Console.WriteLine("               github.com/samanthablazizza               ");
+            Console.WriteLine("                                                         ");
+            Console.WriteLine("*********************************************************");
+        }
         private static void KeyPress()
         {
             do

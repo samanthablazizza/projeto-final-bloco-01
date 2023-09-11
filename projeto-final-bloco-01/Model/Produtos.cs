@@ -9,14 +9,16 @@ namespace projeto_final_bloco_01.Model
     public abstract class Produtos
     {
         private int id, tipo;
-        private string nome = string.Empty;       
+        private string nome = string.Empty;
+        private string marca = string.Empty;
         private decimal preco;
 
-        public Produtos(int id, int tipo, string nome, decimal preco)
+        public Produtos(int id, int tipo, string nome, string marca, decimal preco)
         {
             this.id = id;
             this.tipo = tipo;
             this.nome = nome;
+            this.marca = marca;
             this.preco = preco;
 
         }
@@ -43,6 +45,14 @@ namespace projeto_final_bloco_01.Model
         public void SetNome(string nome)
         {
             this.nome = nome;
+        }
+        public string GetMarca()
+        {
+            return marca;
+        }
+        public void SetMarca(string marca)
+        {
+            this.marca= marca;
         }
         public decimal GetPreco()
         {
@@ -73,6 +83,7 @@ namespace projeto_final_bloco_01.Model
             Console.WriteLine($"Identificação do Produto: {this.id}");
             Console.WriteLine($"Tipo de produto: {this.tipo}");
             Console.WriteLine($"Nome: {this.nome}");
+            Console.WriteLine($"Marca {this.marca}");
             Console.WriteLine($"Preço: " + (this.preco).ToString("C"));
         }
     }

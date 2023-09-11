@@ -9,7 +9,7 @@ namespace projeto_final_bloco_01.Model
     public class Celular : Produtos
     {
         private string cor = string.Empty;
-        public Celular(int id, int tipo, string nome, decimal preco, string cor) : base(id, tipo, nome, preco)
+        public Celular(int id, int tipo, string nome, decimal preco, string marca, string cor) : base(id, tipo, nome, marca, preco)
         {
             this.cor = cor; 
         }

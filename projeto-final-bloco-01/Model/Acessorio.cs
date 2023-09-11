@@ -9,7 +9,7 @@ namespace projeto_final_bloco_01.Model
     public class Acessorio : Produtos
     {
         private string categoria;
-        public Acessorio(int id, int tipo, string nome, decimal preco, string categoria) : base(id, tipo, nome, preco)
+        public Acessorio(int id, int tipo, string nome, string marca, decimal preco, string categoria) : base(id, tipo, nome, marca, preco)
         {
             this.categoria = categoria; 
         }
